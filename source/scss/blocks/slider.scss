@@ -88,7 +88,7 @@
     margin-left: -2.5rem;
     font-size: 3rem;
   }
-}
+} 
 
 .slider__item-text {
   margin-top: 3.6rem;
@@ -96,6 +96,20 @@
   max-width: 34rem;
   font-size: 1.8rem;
   line-height: 2rem;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.6s ease-in-out 0.2s, transform 0.6s ease-in-out 0.2s;
+
+  .screen.active .swiper-slide-active & {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+
+  .screen.active .swiper-slide-next  & {
+    opacity: 1;
+    transform: translateX(0px);
+    transition-delay: 0.5s;
+  }
 
   @media (min-width: $stop-scaling) {
     margin-top: 36px;
