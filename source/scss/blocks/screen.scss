@@ -298,6 +298,8 @@
 
 
 .screen--story {
+  position: relative;
+  z-index: 1;
   background-color: $c-dark;
   background-image: url("../img/slide1.jpg"), url("../img/slide2.jpg"), url("../img/slide3.jpg"), url("../img/slide4.jpg");
   background-repeat: no-repeat;
@@ -312,6 +314,26 @@
 
 .screen--prizes {
   background-color: $c-dark;
+  z-index: 3;
+}
+
+.bg {
+  display: block;
+  position: absolute;
+
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $c-dark;
+  transform: translateY(100vh);
+  transition: transform $duration-normal linear;
+
+  &.show {
+    transform: translateY(0);
+    z-index: 2;
+  }
 }
 
 .screen--game {
