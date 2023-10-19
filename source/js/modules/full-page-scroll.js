@@ -8,6 +8,8 @@ export default class FullPageScroll {
 
     this.screenElements = document.querySelectorAll(`.screen:not(.screen--result)`);
     this.menuElements = document.querySelectorAll(`.page-header__menu .js-menu-link`);
+    this.bg = document.querySelector(`#bg`);
+    this.fromStoryDisplay = false;
 
     this.activeScreen = 0;
     this.onScrollHandler = this.onScroll.bind(this);
@@ -15,7 +17,9 @@ export default class FullPageScroll {
   }
 
   init() {
-    document.addEventListener(`wheel`, throttle(this.onScrollHandler, this.THROTTLE_TIMEOUT, {trailing: true}));
+    document.addEventListener(`wheel`, throttle(this.onScrollHandler, this.THROTTLE_TIMEOUT, {
+      trailing: true
+    }));
     window.addEventListener(`popstate`, this.onUrlHashChengedHandler);
 
     this.onUrlHashChanged();
@@ -51,7 +55,7 @@ export default class FullPageScroll {
     this.emitChangeDisplayEvent();
   }
 
-  changeVisibilityDisplay() {
+  changeDisplayClass() {
     this.screenElements.forEach((screen) => {
       screen.classList.add(`screen--hidden`);
       screen.classList.remove(`active`);
@@ -60,6 +64,24 @@ export default class FullPageScroll {
     setTimeout(() => {
       this.screenElements[this.activeScreen].classList.add(`active`);
     }, 100);
+  }
+
+  changeVisibilityDisplay() {
+    if (this.screenElements[this.activeScreen].id === `story`) {
+      this.bg.classList.remove(`show`);
+      this.fromStoryDisplay = true;
+      this.changeDisplayClass();
+    } else if (this.screenElements[this.activeScreen].id === `prizes` && this.fromStoryDisplay) {
+      this.bg.classList.add(`show`);
+      setTimeout(() => {
+        this.changeDisplayClass();
+      }, 400);
+      this.fromStoryDisplay = false;
+    } else {
+      this.bg.classList.remove(`show`);
+      this.fromStoryDisplay = false;
+      this.changeDisplayClass();
+    }
   }
 
   changeActiveMenuItem() {
